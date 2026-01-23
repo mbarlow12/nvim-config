@@ -1,70 +1,30 @@
+-----------------------------------------------------------
+-- LSP Configuration
+-- Toggle servers by editing enabled_servers list below
+-----------------------------------------------------------
+local enabled_servers = { "ty", "ruff", "rust_analyzer" }
+
+-- Collect all LSP configs from lsp/ directory
+local lsp_configs = {
+  require("plugins.lsp.ty"),
+  require("plugins.lsp.ruff"),
+  require("plugins.lsp.rust-analyzer"),
+  require("plugins.lsp.basedpyright"),
+}
+
+-- Build servers table from enabled configs
+local servers = {}
+for _, lsp in ipairs(lsp_configs) do
+  if vim.tbl_contains(enabled_servers, lsp.server) then
+    if lsp.register then
+      lsp.register()
+    end
+    servers[lsp.server] = lsp.config
+  end
+end
+
 return {
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-
-        -- basedpyright
-        basedpyright = {
-          mason = false,
-          cmd = { "basedpyright-langserver", "--stdio" },
-          settings = {
-            basedpyright = {
-              disableOrganizeImports = true,
-              analysis = {
-                typeCheckingMode = "off",
-                autoImportCompletions = true,
-                logLevel = "Trace",
-              },
-            },
-          },
-        },
-
-        -- pylsp
-        pylsp = {
-          mason = false,
-          settings = {
-            pylsp = {
-              plugins = {
-                autopep8 = { enabled = false },
-                black = { enabled = false },
-                flake8 = { enabled = false },
-                isort = { enabled = false },
-                mccabe = { enabled = false },
-                pycodestyle = { enabled = false },
-                pydocstyle = { enabled = false },
-                pyflakes = { enabled = false },
-                pylint = { enabled = false },
-                yapf = { enabled = false },
-                jedi = { enabled = false },
-                rope_autoimport = { enabled = true },
-                rope_completion = { enabled = false },
-                pylsp_rope = {
-                  rename = { enabled = true },
-                },
-              },
-            },
-          },
-        },
-
-        -- ruff
-        ruff = {
-          mason = false,
-        },
-      },
-    },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    opts = function(_, opts)
-      local dis_servers = { "pyright", "ruff_lsp" }
-      for _, server in ipairs(dis_servers) do
-        opts.servers[server] = opts.servers[server] or {}
-        opts.servers[server].enabled = false
-      end
-      opts.servers["ruff"].enabled = true
-      opts.servers["pylsp"].enabled = false
-      opts.servers["basedpyright"].enabled = true
-    end,
-  },
+  "neovim/nvim-lspconfig",
+  enabled = true,
+  opts = { servers = servers },
 }
