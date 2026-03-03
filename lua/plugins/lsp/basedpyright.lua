@@ -4,10 +4,12 @@
 return {
   server = "basedpyright",
   config = {
+    mason = false,
     settings = {
       basedpyright = {
         disableOrganizeImports = true,
         analysis = {
+          diagnosticMode = "openFilesOnly",
           autoImportCompletions = true,
           logLevel = "Trace",
         },

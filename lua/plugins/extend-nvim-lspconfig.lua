@@ -2,7 +2,7 @@
 -- LSP Configuration
 -- Toggle servers by editing enabled_servers list below
 -----------------------------------------------------------
-local enabled_servers = { "ty", "ruff", "rust_analyzer" }
+local enabled_servers = { "basedpyright", "ruff", "rust_analyzer" }
 
 -- Collect all LSP configs from lsp/ directory
 local lsp_configs = {
