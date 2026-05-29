@@ -11,7 +11,7 @@ return {
         analysis = {
           diagnosticMode = "openFilesOnly",
           autoImportCompletions = true,
-          logLevel = "Trace",
+          autoSearchPaths = false,
         },
       },
     },
